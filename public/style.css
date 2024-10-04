@@ -13,12 +13,10 @@ h1 {
   color: white;
 }
 
-#game-container {
-  width: 100%;
-  height: 100%;
-  max-width: 640px;
-  max-height: 360px;
-  border: 2px solid white;
-  position: relative;
-  overflow: hidden;
+#game-container, #opencv-container {
+  width: 640px;
+  height: 360px;
+  position: relative; /* for absolute positioning of children */
+  overflow: hidden;  /* prevents overflow */
+  display: inline-block; /* aligns containers next to each other */
 }

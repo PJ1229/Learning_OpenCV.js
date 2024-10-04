@@ -1,13 +1,20 @@
 // init pixijs
 const app = new PIXI.Application({
-  width: 640,
-  height: 360,
+    width: 640,
+    height: 360,
+    backgroundColor: 0x1099bb,
 });
 document.getElementById('game-container').appendChild(app.view);
 
+// Create an image element for OpenCV
+const opencvImageElement = document.createElement('img');
+opencvImageElement.style.width = '640px'; // Set width to match PixiJS app
+opencvImageElement.style.height = '360px'; // Set height to match PixiJS app
+document.getElementById('opencv-container').appendChild(opencvImageElement);
+
 // wait for opencv
 cv['onRuntimeInitialized'] = () => {
-    console.log('OpenCV.js is ready to use!');
+    console.log('opencv ready');
 
     // load image w opencv
     let imgElement = document.createElement('img');
@@ -19,17 +26,15 @@ cv['onRuntimeInitialized'] = () => {
         let dst = new cv.Mat();
 
         // debugging
-        console.log(`Image dimensions: ${src.cols} x ${src.rows}, Channels: ${src.channels()}`);
+        console.log(`image dimensions: ${src.cols} x ${src.rows}, channels: ${src.channels()}`);
 
         // convert to grayscale
         try {
             cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
-
             // debugging
             console.log('converted to grayscale.');
         } catch (error) {
-
-            //debugging
+            // debugging
             console.error('error converting to grayscale:', error);
 
             // clean up open cv
@@ -49,7 +54,7 @@ cv['onRuntimeInitialized'] = () => {
         // check if length of data is expected
         if (dst.data.length !== expectedLength) {
             // debugging
-            console.error('Grayscale image data length is invalid:', dst.data.length);
+            console.error('grayscale image data length is invalid:', dst.data.length);
 
             // delete open cv objects
             src.delete();
@@ -79,9 +84,12 @@ cv['onRuntimeInitialized'] = () => {
             // add sprite to pixijs stage
             app.stage.addChild(sprite);
             console.log('sprite added to pixijs stage.');
-        } catch (error) {
 
-          // debugging
+            // Set the OpenCV image element's src to the grayscale image
+            opencvImageElement.src = URL.createObjectURL(new Blob([imageData.data.buffer], { type: 'image/png' }));
+
+        } catch (error) {
+            // debugging
             console.error('error creating image data:', error);
         }
 
@@ -91,7 +99,6 @@ cv['onRuntimeInitialized'] = () => {
     };
 
     imgElement.onerror = function () {
-
         // debugging
         console.error('error loading image, check path');
     };
@@ -99,5 +106,5 @@ cv['onRuntimeInitialized'] = () => {
 
 // debugging
 if (cv['onRuntimeInitialized'] === undefined) {
-    console.error('OpenCV.js did not initialize correctly.');
+    console.error('opencv didnt initialize correctly');
 }
