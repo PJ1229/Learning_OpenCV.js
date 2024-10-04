@@ -1,16 +1,18 @@
-// init pixijs
-const app = new PIXI.Application({
+// init game window
+const game = new PIXI.Application({
+    width: 640,
+    height: 360,
+    backgroundColor: 0x000000,
+});
+document.getElementById('game-container').appendChild(game.view);
+
+// init opencv window
+const opencv = new PIXI.Application({
     width: 640,
     height: 360,
     backgroundColor: 0x1099bb,
 });
-document.getElementById('game-container').appendChild(app.view);
-
-// Create an image element for OpenCV
-const opencvImageElement = document.createElement('img');
-opencvImageElement.style.width = '640px'; // Set width to match PixiJS app
-opencvImageElement.style.height = '360px'; // Set height to match PixiJS app
-document.getElementById('opencv-container').appendChild(opencvImageElement);
+document.getElementById('opencv-container').appendChild(opencv.view);
 
 // wait for opencv
 cv['onRuntimeInitialized'] = () => {
@@ -31,11 +33,8 @@ cv['onRuntimeInitialized'] = () => {
         // convert to grayscale
         try {
             cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
-            // debugging
-            console.log('converted to grayscale.');
         } catch (error) {
-            // debugging
-            console.error('error converting to grayscale:', error);
+            console.error('error converting to grayscale:', error); // debugging
 
             // clean up open cv
             src.delete();
@@ -81,11 +80,11 @@ cv['onRuntimeInitialized'] = () => {
             const texture = PIXI.Texture.fromBuffer(imageData.data, outputWidth, outputHeight);
             const sprite = new PIXI.Sprite(texture);
 
-            // add sprite to pixijs stage
-            app.stage.addChild(sprite);
+            // add sprite to opencv stage
+            opencv.stage.addChild(sprite);
             console.log('sprite added to pixijs stage.');
 
-            // Set the OpenCV image element's src to the grayscale image
+            // set the opencv image element's src to the grayscale image
             opencvImageElement.src = URL.createObjectURL(new Blob([imageData.data.buffer], { type: 'image/png' }));
 
         } catch (error) {
