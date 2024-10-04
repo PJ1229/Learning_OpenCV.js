@@ -1,22 +1,23 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100vh;
-  background-color: black;
 }
 
 h1 {
   color: white;
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  height: 100vh;
+}
+
 #game-container, #opencv-container {
   width: 640px;
   height: 360px;
-  position: relative; /* for absolute positioning of children */
-  overflow: hidden;  /* prevents overflow */
-  display: inline-block; /* aligns containers next to each other */
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
 }
