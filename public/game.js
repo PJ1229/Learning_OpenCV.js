@@ -30,7 +30,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: false })
 cv['onRuntimeInitialized'] = () => {
     console.log('opencv ready');
 
-    // Reference the canvas element directly
+    // reference canvas
     let canvasFrame = document.getElementById("canvas-output");
     let context = canvasFrame.getContext("2d");
     let src = new cv.Mat(360, 640, cv.CV_8UC4);
