@@ -3,10 +3,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-h1 {
-  color: white;
-}
-
 #game-container, #opencv-container {
   width: 640px;
   height: 360px;
