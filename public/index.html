@@ -33,7 +33,7 @@ function openCvReady() {
     utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
     classifier.load(faceCascadeFile); // in the callback, load the cascade from file 
 });
-    const FPS = 24;
+    const FPS = 60;
     function processVideo() {
         let begin = Date.now();
         cap.read(src);
